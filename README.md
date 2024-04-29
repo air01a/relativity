@@ -6,6 +6,7 @@ Few general relativity test
 
 Raytracing for blackhole lens effect approximation (schwarschild metric approximation)
 ![alt text](doc/blackhole.png)
+![alt text](doc/defelection.png)
 
 ## Mercury trajectory
 ![alt text](doc/mercury_1.png) 
