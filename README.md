@@ -27,3 +27,12 @@ simulate light trajectory
 python photo_geodesic.py
 ```
 ![alt text](doc/light_geodesic.png)
+
+## Geodesic for any curved surface
+Draw geodesics for given curved surface equation
+simulate light trajectory
+```
+python metric.py
+```
+![alt text](doc/geo1.png)
+![alt text](doc/geo2.png)
