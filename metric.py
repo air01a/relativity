@@ -4,9 +4,13 @@ from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+
+A=1
+B=1
+C=2
 # Définition des symboles
 x, y = symbols('x y')
-z = -1 / (x**2 + y**2 + 1)
+z = -C / ((x/A)**2 +(y/A)**2 + B)
 # Calcul des dérivées partielles
 df_dx = diff(z, x)
 df_dy = diff(z, y)
@@ -40,27 +44,44 @@ def geodesic_equations(t, y):
     return [dx, ddx, dy, ddy]
 
 # Conditions initiales
-initial_conditions = [-4, 0.001, -4, 0.00085]  # x0, dx0, y0, dy0
-
+initial_conditions1 = [-4, 0.001, -4, 0.00085]  # x0, dx0, y0, dy0
+initial_conditions2 = [-4, 0.001, -4, 0.00075] 
+initial_conditions3 = [-4, 0.001, -4, 0.00055] 
 # Résolution des équations
-t_span = [0, 10000]
-sol = solve_ivp(geodesic_equations, t_span, initial_conditions, method='RK45', t_eval=np.linspace(t_span[0], t_span[1], 1000))
+t_span = [0, 8000]
+sol1 = solve_ivp(geodesic_equations, t_span, initial_conditions1, method='RK45', t_eval=np.linspace(t_span[0], t_span[1], 1000))
+sol2 = solve_ivp(geodesic_equations, t_span, initial_conditions2, method='RK45', t_eval=np.linspace(t_span[0], t_span[1], 1000))
+sol3 = solve_ivp(geodesic_equations, t_span, initial_conditions3, method='RK45', t_eval=np.linspace(t_span[0], t_span[1], 1000))
+
 
 # Tracé en 3D
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+#fig = plt.figure()
+ax1 = fig.add_subplot(121, projection='3d')
 x_grid, y_grid = np.meshgrid(np.linspace(-4, 4, 50), np.linspace(-4, 4, 50))
-z_grid = -1 / (x_grid**2 + y_grid**2 + 1)
-ax.plot_surface(x_grid, y_grid, z_grid, alpha=0.5, cmap='viridis')
+z_grid = -C / ((x_grid/A)**2 + (y_grid/A)**2 + B)
+ax1.plot_surface(x_grid, y_grid, z_grid, alpha=0.5, cmap='viridis')
 
 # Tracé de la géodésique
-x_path, dx_path, y_path, dy_path = sol.y
+i=0
+for sol in [sol1, sol2, sol3]:
+    i+=1
+    x_path, dx_path, y_path, dy_path = sol.y
+    z_path = -C / ((x_path/A)**2 + (y_path/A)**2 + B)
+    ax1.plot(x_path, y_path, z_path,  linewidth=2, label='Geodesic '+str(i))
 
-z_path = -1 / (x_path**2 + y_path**2 + 1)
 
-ax.plot(x_path, y_path, z_path, color='red', linewidth=2, label='Geodesic')
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-ax.set_zlabel('Z')
+ax1.set_xlabel('X')
+ax1.set_ylabel('Y')
+ax1.set_zlabel('Z')
+
+
+ax2 = fig.add_subplot(122)
+i=0
+for sol in [sol1, sol2, sol3]:
+    i+=1
+    x_path, dx_path, y_path, dy_path = sol.y
+    ax2.plot(x_path, y_path)
+#ax2 = fig.add_subplot(111)
 plt.legend()
 plt.show()

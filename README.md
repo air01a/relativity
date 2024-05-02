@@ -29,10 +29,19 @@ python photo_geodesic.py
 ![alt text](doc/light_geodesic.png)
 
 ## Geodesic for any curved surface
-Draw geodesics for given curved surface equation
-simulate light trajectory
+Draw geodesics for given curved surface equation and initial condition
+ - calculate metric from surface equation
+ - calculate christoffel symbols
+ - integrator to solve geodesic equation
+
 ```
 python metric.py
 ```
 ![alt text](doc/geo1.png)
-![alt text](doc/geo2.png)
+
+## Mercury precession
+Calculate precession for mercury (newtonian + relativity) and draw orbits 
+```
+python precession.py
+```
+![alt text](doc/precession.png)
